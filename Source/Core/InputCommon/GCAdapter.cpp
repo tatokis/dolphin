@@ -320,9 +320,9 @@ static bool CheckDeviceAccess(libusb_device* device)
     return false;
   }
 
-  ret = libusb_set_interface_alt_setting(s_handle, 0, 1);
+  ret = libusb_control_transfer(s_handle, 0x21, 11, 0x0001, 0, NULL, 0, 1000);
   if (ret)
-    ERROR_LOG(SERIALINTERFACE, "libusb_set_interface_alt_setting failed with error: %d", ret);
+    ERROR_LOG(SERIALINTERFACE, "libusb_control_transfer SET_INTERFACE failed with error: %d", ret);
 
   // Updating the adapter status will be done in AddGCAdapter
   status_guard.Dismiss();
